@@ -1,0 +1,456 @@
+PROJECT BACKUP: 111
+DATE: 06.01.26_04-02
+FILES COUNT: 10
+========================================
+
+
+/* FILE START: .gitignore */
+--------------------------------------------------
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+--------------------------------------------------
+/* FILE END: .gitignore */
+
+
+/* FILE START: eslint.config.js */
+--------------------------------------------------
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+import { defineConfig, globalIgnores } from 'eslint/config'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{js,jsx}'],
+    extends: [
+      js.configs.recommended,
+      reactHooks.configs.flat.recommended,
+      reactRefresh.configs.vite,
+    ],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module',
+      },
+    },
+    rules: {
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+    },
+  },
+])
+
+--------------------------------------------------
+/* FILE END: eslint.config.js */
+
+
+/* FILE START: index.html */
+--------------------------------------------------
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>my-tg-app</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+
+--------------------------------------------------
+/* FILE END: index.html */
+
+
+/* FILE START: package.json */
+--------------------------------------------------
+{
+  "name": "my-tg-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@twa-dev/sdk": "^8.0.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "vite": "^7.2.4"
+  }
+}
+
+--------------------------------------------------
+/* FILE END: package.json */
+
+
+/* FILE START: README.md */
+--------------------------------------------------
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## React Compiler
+
+The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+
+Note: This will impact Vite dev & build performances.
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+--------------------------------------------------
+/* FILE END: README.md */
+
+
+/* FILE START: src\App.css */
+--------------------------------------------------
+:root {
+  --bg-color: var(--tg-theme-bg-color, #242424);
+  --text-color: var(--tg-theme-text-color, #ffffff);
+  --hint-color: var(--tg-theme-hint-color, #999999);
+  --link-color: var(--tg-theme-link-color, #646cff);
+  --btn-color: var(--tg-theme-button-color, #646cff);
+  --btn-text: var(--tg-theme-button-text-color, #ffffff);
+  --secondary-bg: var(--tg-theme-secondary-bg-color, #2f2f2f);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh; /* Высота на весь экран */
+  display: flex;
+  justify-content: center; /* Центрирование по вертикали */
+  align-items: center; /* Центрирование по горизонтали */
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden; /* Чтобы не было прокрутки, если контента мало */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Стили для аватарки */
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* Делаем круглой */
+  object-fit: cover;
+  border: 4px solid var(--btn-color);
+  margin-bottom: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.username {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0;
+}
+
+.user-tag {
+  color: var(--link-color);
+  margin: 5px 0 20px 0;
+  font-size: 1em;
+}
+
+.data-card {
+  background-color: var(--secondary-bg);
+  padding: 15px;
+  border-radius: 12px;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+}
+
+.data-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 4px;
+}
+
+.data-row:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.label {
+  color: var(--hint-color);
+}
+
+button {
+  background-color: var(--btn-color);
+  color: var(--btn-text);
+  border: none;
+  padding: 12px 24px;
+  font-size: 1.2em;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: bold;
+  transition: transform 0.1s;
+}
+
+button:active {
+  transform: scale(0.95);
+  opacity: 0.9;
+}
+--------------------------------------------------
+/* FILE END: src\App.css */
+
+
+/* FILE START: src\App.jsx */
+--------------------------------------------------
+import { useState, useEffect } from 'react'
+import WebApp from '@twa-dev/sdk'
+import './App.css'
+
+function App() {
+  const [count, setCount] = useState(0)
+  const [userData, setUserData] = useState(null)
+
+  useEffect(() => {
+    // Инициализация WebApp
+    WebApp.ready();
+    WebApp.expand();
+    
+    // Пытаемся получить данные пользователя
+    if (WebApp.initDataUnsafe.user) {
+      setUserData(WebApp.initDataUnsafe.user)
+    }
+  }, [])
+
+  const handleIncrement = () => {
+    setCount((count) => count + 1)
+    WebApp.HapticFeedback.impactOccurred('medium');
+  }
+
+  return (
+    <div className="container">
+      {userData ? (
+        <>
+          {/* Аватарка (если есть photo_url, иначе заглушка) */}
+          <img 
+            src={userData.photo_url} 
+            alt="User Avatar" 
+            className="avatar"
+            // Если аватарки нет, можно скрыть картинку или подставить дефолтную
+            onError={(e) => { e.target.style.display = 'none' }} 
+          />
+          
+          <h1 className="username">
+            {userData.first_name} {userData.last_name}
+          </h1>
+          
+          <p className="user-tag">
+            @{userData.username || 'unknown'}
+          </p>
+
+          {/* Карточка с техническими данными */}
+          <div className="data-card">
+            <div className="data-row">
+              <span className="label">ID:</span>
+              <span>{userData.id}</span>
+            </div>
+            <div className="data-row">
+              <span className="label">Язык:</span>
+              <span>{userData.language_code}</span>
+            </div>
+            <div className="data-row">
+              <span className="label">Premium:</span>
+              <span>{userData.is_premium ? 'Да 🌟' : 'Нет'}</span>
+            </div>
+          </div>
+        </>
+      ) : (
+        /* Если открыли в браузере (не в ТГ) */
+        <div className="data-card">
+          <p>Пользователь не найден. Открой в Telegram!</p>
+        </div>
+      )}
+
+      <button onClick={handleIncrement}>
+        Очки: {count}
+      </button>
+    </div>
+  )
+}
+
+export default App
+--------------------------------------------------
+/* FILE END: src\App.jsx */
+
+
+/* FILE START: src\index.css */
+--------------------------------------------------
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+--------------------------------------------------
+/* FILE END: src\index.css */
+
+
+/* FILE START: src\main.jsx */
+--------------------------------------------------
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+
+--------------------------------------------------
+/* FILE END: src\main.jsx */
+
+
+/* FILE START: vite.config.js */
+--------------------------------------------------
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [
+    react({
+      babel: {
+        plugins: [['babel-plugin-react-compiler']],
+      },
+    }),
+  ],
+})
+
+--------------------------------------------------
+/* FILE END: vite.config.js */
+
